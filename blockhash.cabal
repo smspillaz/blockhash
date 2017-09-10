@@ -34,13 +34,14 @@ executable blockhash-exe
                      , wai-middleware-static
                      , transformers
                      , mtl
-                     , cryptohash
-                     , cryptonite == 0.21.*
+                     , cryptonite
                      , text
                      , web3
-                     , vector >= 0.11.0.0 && < 0.12
+                     , vector
                      , containers
-                     , aeson >=1.0.2.1 && <1.1
+                     , aeson
+                     , base16-bytestring
+                     , memory
   default-language:    Haskell2010
 
 test-suite blockhash-test

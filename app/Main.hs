@@ -22,12 +22,14 @@ import Network.Ethereum.Web3.TH
 
 import qualified Data.ByteString.Lazy as B
 import qualified Data.ByteString.Char8 as BS
+import qualified Data.ByteString.Base16 as B16
+import qualified Data.ByteArray as BAConvert
 import System.FilePath ((</>))
 
 import Text.Printf
 
 sha256hex :: B.ByteString -> BS.ByteString
-sha256hex s = digestToHexByteString (hashlazy s :: Digest SHA256)
+sha256hex s = B16.encode $ BAConvert.convert (hashlazy s :: Digest SHA256)
 
 [abiFrom|contracts/build/Blockhash.json|]
 
@@ -47,8 +49,6 @@ main = scotty 3000 $ do
     let string = BS.concat results
     let stringLazy = B.fromStrict string
     let decoded = E.decodeUtf8 stringLazy
-
-    putStrLn [abiFrom|contracts/build/Blockhash.json|]
 
     html decoded
 
