@@ -1,0 +1,3 @@
+[submodule "vendor/hs-web3"]
+	path = vendor/hs-web3
+	url = git://github.com/airalab/hs-web3
