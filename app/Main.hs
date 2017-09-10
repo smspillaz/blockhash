@@ -31,7 +31,7 @@ import Text.Printf
 sha256hex :: B.ByteString -> BS.ByteString
 sha256hex s = B16.encode $ BAConvert.convert (hashlazy s :: Digest SHA256)
 
-[abiFrom|contracts/build/Blockhash.json|]
+[abiFrom|contracts/abis/Blockhash.json|]
 
 main :: IO ()
 main = scotty 3000 $ do
