@@ -1,7 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE QuasiQuotes       #-}
 
 module Main where
 
+import Data.Text (unpack)
 import Data.Text.Lazy.Encoding  as E
 
 import Web.Scotty
@@ -15,12 +17,19 @@ import Network.Wai.Middleware.RequestLogger
 import Network.Wai.Middleware.Static
 import Network.Wai.Parse
 
+import Network.Ethereum.Web3
+import Network.Ethereum.Web3.TH
+
 import qualified Data.ByteString.Lazy as B
 import qualified Data.ByteString.Char8 as BS
 import System.FilePath ((</>))
 
+import Text.Printf
+
 sha256hex :: B.ByteString -> BS.ByteString
 sha256hex s = digestToHexByteString (hashlazy s :: Digest SHA256)
+
+[abiFrom|contracts/build/Blockhash.json|]
 
 main :: IO ()
 main = scotty 3000 $ do
@@ -38,5 +47,8 @@ main = scotty 3000 $ do
     let string = BS.concat results
     let stringLazy = B.fromStrict string
     let decoded = E.decodeUtf8 stringLazy
+
+    putStrLn [abiFrom|contracts/build/Blockhash.json|]
+
     html decoded
 
